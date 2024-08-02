@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# This asdf shell script provides a brief overview of Tailwindcss
+
+echo "A utility-first CSS framework for rapid UI development"
+echo ""

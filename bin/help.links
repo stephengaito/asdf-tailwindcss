@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# This asdf shell script provides useful URLS for Tailwindcss
+
+echo GitHub https://github.com/tailwindlabs/tailwindcss
+echo ""
+echo Tailwindcss https://tailwindcss.com/
+echo ""

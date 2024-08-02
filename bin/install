@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# This asdf shell script installs tailwindcss
+
+# consider using the trap command
+# see: https://www.shellscript.sh/trap.html
+
+echo ASDF_DOWNLOAD_PATH: $ASDF_DOWNLOAD_PATH
+echo  ASDF_INSTALL_PATH: $ASDF_INSTALL_PATH
+
+cp -R $ASDF_DOWNLOAD_PATH/* $ASDF_INSTALL_PATH
+
+cd $ASDF_INSTALL_PATH
+
+mkdir bin
+mv $ASDF_DOWNLOAD_PATH/tailwindcss bin
+rm tailwindcss
+chmod a+x bin/tailwindcss
+
+echo "------------------------------------------------------------------"
+echo "asdf-tailwindcss:"
+echo ""
+echo "The asdf system now manages the tailwindcss commands."
+echo ""
+echo "The tailwindcss should now simply work..."
+echo ""

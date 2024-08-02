@@ -1,0 +1,67 @@
+#!/bin/sh
+
+# This asdf shell script downloads the correct version of tailwindcss
+
+# NOTE: at the moment this ONLY works on Linux using an Intel or ARM
+# (raspberry pi 4) processor.
+
+trap 'rm -rf "$ASDF_TAILWINDCSS_TMPDIR"' EXIT
+
+ASDF_TAILWINDCSS_TMPDIR=$(mktemp -d /tmp/asdf-tailwindcss-XXXXXX)
+ASDF_DOWNLOAD_PATH=${ASDF_DOWNLOAD_PATH-$ASDF_TAILWINDCSS_TMPDIR}
+SYSTEM=$(uname -s)
+CPU=$(uname -m)
+PLATFORM="unknown"
+
+case "$SYSTEM" in
+  Linux)
+    if command -v ldd >/dev/null && ldd --version 2>&1 | grep -E '^musl' >/dev/null
+    then
+      exit 1
+    else
+      PLATFORM="linux"
+    fi
+    ;;
+  *)
+    exit 1
+esac
+
+case "$CPU" in
+  i*86)
+    ;;
+  x86_64|ia64)
+    PLATFORM="$PLATFORM-x64"
+    ;;
+  aarch64)
+    PLATFORM="$PLATFORM-arm64"
+    ;;
+  *)
+    exit 1
+esac
+
+
+cd $ASDF_DOWNLOAD_PATH
+
+echo Platform: $PLATFORM
+
+
+tailwindcssURL=$(curl --silent \
+  https://github.com/tailwindlabs/tailwindcss/releases/expanded_assets/v$ASDF_INSTALL_VERSION \
+  | grep $PLATFORM | grep href | tr ' ' '\n' | grep href | tr '=' '\n' \
+  | grep -v href | tr -d '"' )
+
+tailwindcssFILE=$(basename $tailwindcssURL)
+
+echo "Tailwindcss  URL: $tailwindcssURL"
+echo "Tailwindcss FILE: $tailwindcssFILE"
+
+
+wget https://github.com$tailwindcssURL
+
+if test $? -ne 0
+then
+  rm $tailwindcssFILE
+  exit 1
+else
+  mv $tailwindcssFILE tailwindcss
+fi
