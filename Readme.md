@@ -5,6 +5,9 @@ the Tailwindcss tool
 
 ## Tailwind 4.1.x needs watchman
 
+See: [Installation |
+Watchman](https://facebook.github.io/watchman/docs/install.html)
+
 To install watchman from release files:
 
 ```
