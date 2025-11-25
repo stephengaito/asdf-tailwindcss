@@ -48,7 +48,7 @@ echo Platform: $PLATFORM
 tailwindcssURL=$(curl --silent \
   https://github.com/tailwindlabs/tailwindcss/releases/expanded_assets/v$ASDF_INSTALL_VERSION \
   | grep $PLATFORM | grep href | tr ' ' '\n' | grep href | tr '=' '\n' \
-  | grep -v href | tr -d '"' )
+  | grep -v href | grep -v musl | tr -d '"' )
 
 tailwindcssFILE=$(basename $tailwindcssURL)
 
